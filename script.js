@@ -181,7 +181,45 @@ document.getElementById('download-html').addEventListener('click', function () {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video de YouTube con Subtítulos Dinámicos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003057;
+            margin: 20px 0;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .video-container #player {
+            flex: 0 0 70%;
+            height: 360px;
+        }
+
+        .video-container #full-transcript-container {
+            flex: 0 0 30%;
+            max-height: 360px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-y: auto;
+        }
+
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
@@ -202,13 +240,52 @@ document.getElementById('download-html').addEventListener('click', function () {
     </div>
     <script>
         var player;
+        var subtitles = ${JSON.stringify(subtitles)};
+        var subtitleElements = [];
+
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '100%',
                 width: '100%',
-                videoId: '${videoId}'
+                videoId: '${videoId}',
+                events: {
+                    'onReady': onPlayerReady
+                }
             });
         }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+            checkTime();
+        }
+
+        function checkTime() {
+            var currentTime = player.getCurrentTime();
+            subtitles.forEach(function (subtitle, index) {
+                var subtitleElement = subtitleElements[index];
+                var nextSubtitleTime = (index + 1 < subtitles.length) ? subtitles[index + 1].time : player.getDuration();
+
+                if (currentTime >= subtitle.time && currentTime < nextSubtitleTime) {
+                    subtitleElement.classList.add('highlight');
+                } else {
+                    subtitleElement.classList.remove('highlight');
+                }
+            });
+            requestAnimationFrame(checkTime);
+        }
+
+        function displayFullTranscript() {
+            var fullTranscriptContainer = document.getElementById('full-transcript-container');
+            fullTranscriptContainer.innerHTML = '';
+            subtitles.forEach(function (subtitle, index) {
+                var p = document.createElement('p');
+                p.innerText = subtitle.text;
+                fullTranscriptContainer.appendChild(p);
+                subtitleElements.push(p);
+            });
+        }
+
+        displayFullTranscript();
     </script>
 </body>
 </html>`;
