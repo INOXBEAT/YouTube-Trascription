@@ -122,7 +122,7 @@ function displayFullTranscript() {
     });
 }
 
-/* 13/agosto/2024*/ //función que genere el contenido HTML y lo convierta en un archivo descargable.
+/* 14/agosto/2024*/ //función que genere el contenido HTML y lo convierta en un archivo descargable.
 
 document.getElementById('download-html').addEventListener('click', function () {
     var videoUrl = document.getElementById('videoUrl').value;
@@ -229,9 +229,9 @@ document.getElementById('download-html').addEventListener('click', function () {
             <div id="player"></div>
             <div id="full-transcript-container">`;
 
-        // Agregar subtítulos al contenido HTML
+        // Agregar subtítulos con enlaces al contenido HTML
         subtitles.forEach(function (subtitle) {
-            htmlContent += `<p>${subtitle.text}</p>`;
+            htmlContent += `<p><a href="#" onclick="player.seekTo(${subtitle.time}, true); return false;">${subtitle.text}</a></p>`;
         });
 
         htmlContent += `
@@ -279,7 +279,14 @@ document.getElementById('download-html').addEventListener('click', function () {
             fullTranscriptContainer.innerHTML = '';
             subtitles.forEach(function (subtitle, index) {
                 var p = document.createElement('p');
-                p.innerText = subtitle.text;
+                var a = document.createElement('a');
+                a.innerText = subtitle.text;
+                a.href = "#";
+                a.onclick = function () {
+                    player.seekTo(subtitle.time, true);
+                    return false;
+                };
+                p.appendChild(a);
                 fullTranscriptContainer.appendChild(p);
                 subtitleElements.push(p);
             });
