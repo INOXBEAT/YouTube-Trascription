@@ -121,9 +121,29 @@ function displayFullTranscript() {
         subtitleElements.push(p);
     });
 }
+ 
+// Configuración de H5P
+document.getElementById('add-interaction').addEventListener('click', function () {
+    const h5pContainer = document.getElementById('h5p-interaction-container');
+
+    H5P.Standalone(h5pContainer, {
+        id: 'interactive-video',
+        title: 'Mi Video Interactivo',
+        params: {
+            video: {
+                files: [
+                    {
+                        path: 'https://www.youtube.com/watch?v=' + player.getVideoData().video_id
+                    }
+                ],
+                interactions: []
+            }
+        },
+        library: 'H5P.InteractiveVideo 1.22'
+    });
+});
 
 //función que genere el contenido HTML y lo convierta en un archivo descargable.
-
 document.getElementById('download-html').addEventListener('click', function () {
     var videoUrl = document.getElementById('videoUrl').value;
     var fileInput = document.getElementById('fileInput');

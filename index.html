@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video de YouTube con Subtítulos Dinámicos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css"> <!-- Archivo CSS externo -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Cargar los estilos de H5P desde un CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/h5p-standalone@3.7.0/dist/styles/h5p.min.css" rel="stylesheet">
     <script src="https://www.youtube.com/iframe_api"></script>
+
     <link rel="stylesheet" href="styles.css">
 
 </head>
@@ -41,13 +43,15 @@
         </div>
     </div>
 
-    <!-- MIERCOLES 14/AGOSTO/20214 PANEL DE CONTROL DE INTERACCIONES -->
-    <div class="container">
-        <div class="form-container">
-            <p><i> Aquí irá el panel de control de las interacciones</i></p>
-        </div>
+    <!-- MIERCOLES 14/AGOSTO/2024 PANEL DE CONTROL DE INTERACCIONES -->
+    <div class="container mt-4">
+        <h2>Panel de Control para Interacciones</h2>
+        <div id="h5p-interaction-container"></div>
+        <button id="add-interaction" class="btn btn-success">Agregar Interacción</button>
     </div>
 
+    <!-- MIERCOLES 14/AGOSTO/2024 Embed generado en h5p.org -->
+    <iframe src="https://h5p.org/h5p/embed/1500162" width="1090" height="244" frameborder="0" allowfullscreen="allowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *" title="Verdadero o Falso"></iframe><script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js" charset="UTF-8"></script>
 
     <!-- Formulario para descargar el HTML generado -->
     <div class="container">
@@ -58,6 +62,9 @@
         </div>
     </div>
 
+    <!-- Cargar el script de H5P desde un CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/h5p-standalone@3.7.0/dist/main.bundle.min.js"></script>
+    
     <script src="script.js"></script> <!-- Archivo JavaScript externo -->
 </body>
 
