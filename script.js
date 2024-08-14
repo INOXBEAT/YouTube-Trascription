@@ -122,7 +122,7 @@ function displayFullTranscript() {
     });
 }
 
-/* 14/agosto/2024*/ //función que genere el contenido HTML y lo convierta en un archivo descargable.
+//función que genere el contenido HTML y lo convierta en un archivo descargable.
 
 document.getElementById('download-html').addEventListener('click', function () {
     var videoUrl = document.getElementById('videoUrl').value;
@@ -267,11 +267,22 @@ document.getElementById('download-html').addEventListener('click', function () {
 
                 if (currentTime >= subtitle.time && currentTime < nextSubtitleTime) {
                     subtitleElement.classList.add('highlight');
+                    scrollIntoViewIfNeeded(subtitleElement);
                 } else {
                     subtitleElement.classList.remove('highlight');
                 }
             });
             requestAnimationFrame(checkTime);
+        }
+
+        function scrollIntoViewIfNeeded(element) {
+            var container = document.getElementById('full-transcript-container');
+            var containerRect = container.getBoundingClientRect();
+            var elementRect = element.getBoundingClientRect();
+
+            if (elementRect.top < containerRect.top || elementRect.bottom > containerRect.bottom) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         }
 
         function displayFullTranscript() {
@@ -300,14 +311,19 @@ document.getElementById('download-html').addEventListener('click', function () {
         // Crear un blob con el contenido HTML
         var blob = new Blob([htmlContent], { type: 'text/html' });
 
-        // Crear un enlace de descarga
-        var link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'video_subtitulos.html';
+        // Usar el cuadro de diálogo "Guardar como" del navegador
+        var fileName = prompt("Por favor, ingresa un nombre para el archivo", "recursoHTML.html");
+        if (fileName) {
+            // Crear un enlace de descarga
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
 
-        // Simular un clic en el enlace para iniciar la descarga
-        link.click();
+            // Simular un clic en el enlace para iniciar la descarga
+            link.click();
+        }
     };
 
     reader.readAsText(file);
 });
+
