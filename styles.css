@@ -70,3 +70,8 @@ h1 {
     flex: 0 0 30%;
     max-height: 360px;
 }
+
+.h5p-container {
+    border: 2px solid red;
+    min-height: 300px;
+}
