@@ -8,32 +8,99 @@ function onYouTubeIframeAPIReady() {}
 
 
 // Función para verificar el tiempo del video y resaltar subtítulos
+var isAutoScrollEnabled = true;
+var autoScrollTimeout;
+
 function checkTime() {
     if (!player) return;
 
     var currentTime = player.getCurrentTime();
+    var newHighlightedIndex = -1;
+
     subtitles.forEach(function (subtitle, index) {
         var subtitleElement = subtitleElements[index];
         var nextSubtitleTime = (index + 1 < subtitles.length) ? subtitles[index + 1].time : player.getDuration();
 
         if (currentTime >= subtitle.time && currentTime < nextSubtitleTime) {
-            subtitleElement.classList.add('highlight');
+            newHighlightedIndex = index;
 
-            // Scroll del contenedor de la transcripción
-            var container = document.getElementById('full-transcript-container');
-            var containerRect = container.getBoundingClientRect();
-            var elementRect = subtitleElement.getBoundingClientRect();
+            if (isAutoScrollEnabled) {
+                subtitleElement.classList.add('highlight');
 
-            if (elementRect.top < containerRect.top || elementRect.bottom > containerRect.bottom) {
-                container.scrollTop += elementRect.top - containerRect.top - (containerRect.height / 2) + (elementRect.height / 2);
+                // Scroll del contenedor de la transcripción
+                var container = document.getElementById('full-transcript-container');
+                var containerRect = container.getBoundingClientRect();
+                var elementRect = subtitleElement.getBoundingClientRect();
+
+                if (elementRect.top < containerRect.top || elementRect.bottom > containerRect.bottom) {
+                    container.scrollTop += elementRect.top - containerRect.top - (containerRect.height / 2) + (elementRect.height / 2);
+                }
             }
         } else {
             subtitleElement.classList.remove('highlight');
         }
     });
 
+    if (newHighlightedIndex >= 0 && isAutoScrollEnabled) {
+        subtitleElements.forEach((element, idx) => {
+            if (idx === newHighlightedIndex) {
+                element.classList.add('highlight');
+            } else {
+                element.classList.remove('highlight');
+            }
+        });
+    }
+
     requestAnimationFrame(checkTime); // Continuar revisando el tiempo
 }
+
+// Detectar scroll manual y deshabilitar scroll automático temporalmente
+document.getElementById('full-transcript-container').addEventListener('scroll', function() {
+    isAutoScrollEnabled = false;
+
+    clearTimeout(autoScrollTimeout);
+    autoScrollTimeout = setTimeout(function() {
+        isAutoScrollEnabled = true;
+    }, 300);
+});
+
+// Resaltar texto al hacer clic en un enlace
+subtitles.forEach(function (subtitle, index) {
+    var subtitleElement = subtitleElements[index];
+    var a = subtitleElement.querySelector('a');
+
+    a.addEventListener('click', function () {
+        // Deshabilitar temporalmente el scroll automático
+        isAutoScrollEnabled = false;
+
+        // Resaltar el texto seleccionado
+        subtitleElements.forEach((element, idx) => {
+            if (idx === index) {
+                element.classList.add('highlight');
+            } else {
+                element.classList.remove('highlight');
+            }
+        });
+
+        // Rehabilitar el scroll automático después de 3.5 segundos
+        clearTimeout(autoScrollTimeout);
+        autoScrollTimeout = setTimeout(function() {
+            isAutoScrollEnabled = true;
+        }, 500);
+    });
+});
+
+
+// Detectar scroll manual y deshabilitar scroll automático temporalmente
+document.getElementById('full-transcript-container').addEventListener('scroll', function() {
+    isAutoScrollEnabled = false;
+
+    clearTimeout(autoScrollTimeout);
+    autoScrollTimeout = setTimeout(function() {
+        isAutoScrollEnabled = true;
+    }, 3500);
+});
+
 
 // Manejar el envío del formulario
 document.getElementById('video-form').addEventListener('submit', function (e) {
