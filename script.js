@@ -35,8 +35,6 @@ function checkTime() {
     requestAnimationFrame(checkTime); // Continuar revisando el tiempo
 }
 
-
-
 // Manejar el envío del formulario
 document.getElementById('video-form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -137,7 +135,6 @@ function displayFullTranscript() {
     });
 }
 
- 
 // Cargar la interfaz de H5P
 function loadH5P() {
     if (typeof H5P === 'undefined') {
@@ -170,7 +167,6 @@ function loadH5P() {
 
     console.log('H5P inicializado');
 }
-
 
 // Función llamada cuando el reproductor de YouTube está listo
 function onPlayerReady(event) {
