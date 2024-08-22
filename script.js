@@ -2,12 +2,15 @@ var player;
 var subtitles = [];
 var subtitleElements = [];
 
+
 // Función llamada por la API de YouTube para inicializar el reproductor
 function onYouTubeIframeAPIReady() {}
 
 
 // Función para verificar el tiempo del video y resaltar subtítulos
 function checkTime() {
+    if (!player) return;
+
     var currentTime = player.getCurrentTime();
     subtitles.forEach(function (subtitle, index) {
         var subtitleElement = subtitleElements[index];
@@ -15,12 +18,24 @@ function checkTime() {
 
         if (currentTime >= subtitle.time && currentTime < nextSubtitleTime) {
             subtitleElement.classList.add('highlight');
+
+            // Scroll del contenedor de la transcripción
+            var container = document.getElementById('full-transcript-container');
+            var containerRect = container.getBoundingClientRect();
+            var elementRect = subtitleElement.getBoundingClientRect();
+
+            if (elementRect.top < containerRect.top || elementRect.bottom > containerRect.bottom) {
+                container.scrollTop += elementRect.top - containerRect.top - (containerRect.height / 2) + (elementRect.height / 2);
+            }
         } else {
             subtitleElement.classList.remove('highlight');
         }
     });
+
     requestAnimationFrame(checkTime); // Continuar revisando el tiempo
 }
+
+
 
 // Manejar el envío del formulario
 document.getElementById('video-form').addEventListener('submit', function (e) {
@@ -104,18 +119,24 @@ function displayFullTranscript() {
 
     subtitles.forEach(function (subtitle, index) {
         var p = document.createElement('p');
+        p.style.margin = "0"; // Eliminar márgenes entre líneas
+
+        // Crear un enlace para el texto de la transcripción
         var a = document.createElement('a');
-        a.innerText = subtitle.text;
+        a.innerText = subtitle.text + ' ';
         a.href = "#";
+        a.style.textDecoration = "none"; // Eliminar subrayado de los enlaces
         a.onclick = function () {
             player.seekTo(subtitle.time, true);
             return false;
         };
+
         p.appendChild(a);
         fullTranscriptContainer.appendChild(p);
         subtitleElements.push(p);
     });
 }
+
  
 // Cargar la interfaz de H5P
 function loadH5P() {
