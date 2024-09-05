@@ -38,6 +38,15 @@ h1 {
     background-color: #00569c;
 }
 
+#player {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 360px;
+    overflow-y: auto;
+}
+
 #full-transcript-container {
     background-color: #f9f9f9;
     padding: 20px;
