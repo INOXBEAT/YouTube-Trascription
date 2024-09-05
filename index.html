@@ -1,67 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video de YouTube con Subtítulos Dinámicos</title>
+
     <!-- Cargar Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Cargar video.js -->
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
     <!-- Cargar API youtube -->
     <script src="https://www.youtube.com/iframe_api"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-</head>
-
-<body>
+  <body>
     <!-- Contenedor del formulario y el video -->
     <div class="container">
-        <h1>Video de YouTube con Subtítulos Dinámicos</h1>
+      <h1>Video de YouTube con Subtítulos Dinámicos</h1>
 
-        <!-- Formulario para ingresar la URL del video y cargar el archivo de transcripción -->
-        <div class="form-container">
-            <form id="video-form">
-                <div class="mb-3">
-                    <label for="videoUrl" class="form-label">URL del Video:</label>
-                    <input type="text" class="form-control" id="videoUrl" name="videoUrl"
-                        placeholder="Ingresa una URL de video de YOUTUBE" required>
-                </div>
-                <div class="mb-3">
-                    <label for="fileInput" class="form-label">Archivo de Transcripción:</label>
-                    <input type="file" class="form-control" id="fileInput" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Generar</button>
-            </form>
-        </div>
+      <!-- Formulario para ingresar la URL del video y cargar el archivo de transcripción -->
+      <div class="form-container">
+        <form id="video-form">
+          <div class="mb-3">
+            <label for="videoUrl" class="form-label">URL del Video:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="videoUrl"
+              name="videoUrl"
+              placeholder="Ingresa una URL de video de YOUTUBE"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="fileInput" class="form-label"
+              >Archivo de Transcripción:</label
+            >
+            <input type="file" class="form-control" id="fileInput" required />
+          </div>
+          <button type="submit" class="btn btn-primary">Generar</button>
+        </form>
+      </div>
 
-        <!-- Contenedor para el video y la transcripción -->
-        <div class="video-container">
-            <div id="player"></div>
-            <div id="full-transcript-container"></div>
-        </div>
+      <!-- Contenedor para el video y la transcripción -->
+      <div class="video-container">
+        <video id="player" class="video-js vjs-default-skin" controls preload="auto">
+            <source src="" type="video/mp4" />
+            <track kind="captions" src="subtitles.vtt" srclang="es" label="Español" default>
+        </video>
+        <div id="full-transcript-container"></div>
+      </div>
     </div>
 
     <!-- Contenedor para interacciones -->
     <div class="container">
-        <div class="h5p-container">
-            <h2>Interacciones del Video</h2>
-            <div id="h5p-interaction-container"></div>
-        </div>
+      <div class="h5p-container">
+        <h2>Interacciones del Video</h2>
+        <div id="h5p-interaction-container"></div>
+      </div>
     </div>
 
     <!-- Formulario para descargar el HTML generado -->
     <div class="container">
-        <div class="form-container">
-            <form id="video-form">
-                <button type="button" class="btn btn-primary" id="download-html">Descargar HTML</button>
-            </form>
-        </div>
+      <div class="form-container">
+        <form id="video-form">
+          <button type="button" class="btn btn-primary" id="download-html">
+            Descargar HTML
+          </button>
+        </form>
+      </div>
     </div>
 
-    
     <!-- Archivo JavaScript externo o personalizado -->
-    <script src="script.js"></script> 
-</body>
-
+    <script src="script.js"></script>
+    <script src="script2.js"></script>
+  </body>
 </html>
