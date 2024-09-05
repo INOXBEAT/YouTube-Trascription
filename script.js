@@ -202,39 +202,6 @@ function displayFullTranscript() {
     });
 }
 
-// Cargar la interfaz de H5P
-function loadH5P() {
-    if (typeof H5P === 'undefined') {
-        console.error('H5P no está definido. Asegúrate de que el script de H5P se haya cargado correctamente.');
-        return;
-    }
-
-    const h5pContainer = document.getElementById('h5p-interaction-container');
-    h5pContainer.innerHTML = '';
-
-    console.log('Inicializando H5P...');
-
-    // Inicializar H5P
-    H5P.Standalone(h5pContainer, {
-        title: 'Interacciones del Video',
-        library: 'H5P.InteractiveVideo 1.22',
-        params: {
-            interactiveVideo: {
-                video: {
-                    files: [
-                        {
-                            path: 'https://www.youtube.com/watch?v=' + player.getVideoData().video_id
-                        }
-                    ],
-                    interactions: [] // Se agregarán dinámicamente
-                }
-            }
-        }
-    });
-
-    console.log('H5P inicializado');
-}
-
 // Función llamada cuando el reproductor de YouTube está listo
 function onPlayerReady(event) {
     event.target.playVideo();
